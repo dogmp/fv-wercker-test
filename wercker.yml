@@ -1,0 +1,3 @@
+# vim: set syn=yaml:
+
+box: wercker/nodejs
