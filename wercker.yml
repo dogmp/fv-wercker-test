@@ -11,6 +11,9 @@ build:
 
 deploy:
   steps:
+    - add-ssh-key:
+        keyname: SSH_DEPLOY_KEY
+
     - script:
         name: Install Ansible to handle deployment
         code: |-
