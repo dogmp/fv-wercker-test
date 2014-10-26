@@ -1,3 +1,12 @@
 # vim: set syn=yaml:
 
 box: wercker/nodejs
+build:
+  steps:
+    - script:
+        name: Install Ansible to handle deployment
+        code: |-
+          sudo apt-get install python-software-properties
+          sudo add-apt-repository ppa:ansible/ansible -y
+          sudo apt-get update -y
+          sudo apt-get install -y ansible
