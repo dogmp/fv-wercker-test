@@ -2,6 +2,14 @@
 
 box: wercker/nodejs
 build:
+  # as existing wercker.yml
+  steps:
+    - script:
+        name: Echo a message just to show something in logs
+        code: |-
+          echo "Hello, world"
+
+deploy:
   steps:
     - script:
         name: Install Ansible to handle deployment
@@ -10,3 +18,10 @@ build:
           sudo add-apt-repository ppa:ansible/ansible -y
           sudo apt-get update -y
           sudo apt-get install -y ansible
+
+  dev-ec2:
+    - script:
+        name: Running Ansible to deploy
+        code: |-
+          echo $VAULT_PASSWORD | ansible-playbook -i inventory/develop deploy-service.yml --vault-password-file=/bin/cat --list-tasks --list-hosts 
+
