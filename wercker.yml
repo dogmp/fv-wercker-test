@@ -22,15 +22,17 @@ deploy:
           sudo apt-get update -y
           sudo apt-get install -y ansible
 
+    # ANSIBLE_CODE_REPO is fed from Wercker deploy settings
     - script:
         name: Checkout our Ansible repository
         code: |-
-          ansible -ilocalhost, localhost -c local -m git -a 'repo=git@bitbucket.org:flyvictor/ansible-code dest=ansible'
+          ansible -ilocalhost, localhost -c local -m git -a "repo=$ANSIBLE_CODE_REPO dest=ansible"
 
     # manipulate the inventory depending on branch?
+    # VAULT_PASSWORD, ANSIBLE_INVENTORY are fed from Wercker deploy settings
     - script:
         name: Running Ansible to deploy
         cwd: ansible
         code: |-
-          echo $VAULT_PASSWORD | ansible-playbook -i inventory/develop deploy-service.yml --vault-password-file=/bin/cat --list-tasks --list-hosts 
+          echo $VAULT_PASSWORD | ansible-playbook -i inventory/$ANSIBLE_INVENTORY deploy-service.yml --vault-password-file=/bin/cat --list-tasks --list-hosts 
 
